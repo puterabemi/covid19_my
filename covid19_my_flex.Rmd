@@ -1,0 +1,171 @@
+---
+title: "Covid19 Data"
+author: "Epid Modelling Team"
+date: "3/14/2020"
+output: flexdashboard::flex_dashboard
+
+---
+
+
+```{r}
+library(data.world)
+library(dwapi)
+library(tidyverse)
+library(kableExtra)
+library(plotly)
+library(data.table)
+library(DT)
+```
+
+
+```{r}
+# Connect to data.world
+# Get token from data.world
+save_cfg <- data.world::save_config("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyLWFuZC1yLXN0dWRpbzpraW00NTk3IiwiaXNzIjoiY2xpZW50OnItYW5kLXItc3R1ZGlvOmFnZW50OmtpbTQ1OTc6OjIwNDU3ZDUxLWI2YjAtNDE2Yy1hYThkLWYwMTY4NmZiZjYzNSIsImlhdCI6MTU4NDE0NDA5NSwicm9sZSI6WyJ1c2VyX2FwaV9hZG1pbiIsInVzZXJfYXBpX3JlYWQiLCJ1c2VyX2FwaV93cml0ZSJdLCJnZW5lcmFsLXB1cnBvc2UiOnRydWUsInNhbWwiOnt9fQ.C05SW-wZl66PbDlTx9UAIk-tKTBvbROUhHV3euL_0hXdpJ16wg2icauSwmTd4CjnlkcsyoShoZJtwHa83ui1aQ")
+data.world::set_config(save_cfg)
+```
+
+```{r}
+covid19 <- "https://data.world/kim4597/covid19my"
+covid19_query <- data.world::qry_sql(paste0(
+  "SELECT *",
+  "FROM world_covid19"))
+
+covid19.data <- data.world::query(covid19_query, dataset = covid19)
+```
+
+
+Covid19 raw data for worldwide
+=============================================================================
+
+Column
+------------------------------------------------------------------------------
+
+### Raw Data
+
+Data as of `r Sys.Date()`
+
+Data source: https://ourworldindata.org/coronavirus-source-data 
+
+Epidemiology Modelling Team Members:
+
+- Kamarul Imran Musa
+- Azmi
+- Che Hidayat
+- Zarudin
+- Hanis
+- Wira
+- Afiqah
+
+
+
+
+Column
+-----------------------------------------------------------------------------
+
+### Raw Data for world
+
+```{r}
+#covid19.data.all <- covid19.data %>% filter(location == "Worldwide")
+DT::datatable(covid19.data, options = list(
+  pageLength = 15
+))
+```
+
+
+Plots of Covid19 Worlwide
+=============================================================================
+
+Row 
+-------------------------------------------------------------------------------
+
+### Plot data for worldwide (Cases)
+
+
+```{r}
+covid19.data.all <- covid19.data %>% filter(location == 'Worldwide')
+tot_cases <- covid19.data.all %>%
+  group_by(date) %>% 
+  count(total_cases)
+```
+
+Plot
+
+
+```{r, fig.width=5, fig.height=5}
+plot.tot.cases <- ggplot(tot_cases, aes(x = date, y = total_cases)) +
+  geom_line()
+ggplotly(plot.tot.cases)
+```
+
+
+### Plot data for worldwide (Deaths)
+
+```{r}
+tot_deaths <- covid19.data.all %>%
+  group_by(date) %>% 
+  count(total_deaths)
+plot.tota.deaths <- ggplot(tot_deaths, aes(x = date, y = total_deaths)) +
+  geom_line()
+ggplotly(plot.tota.deaths)
+```
+
+Row
+----------------------------------------------------------------------------
+
+### New cases
+
+
+### New deaths
+
+
+Covid19 raw data for Malaysia
+==============================================================================
+
+
+```{r}
+covid19.data.my <- covid19.data %>% filter(location == "Malaysia")
+DT::datatable(covid19.data.my, options = list(
+  pageLength = 15
+))
+```
+
+Plots of covid19 for Malaysia 
+==============================================================================
+
+
+Column
+----------------------------------------------------------------------------
+
+### Plot data for Malaysia (Cases)
+
+
+```{r}
+tot_cases_my <- covid19.data.my %>%
+  group_by(date) %>% 
+  count(total_cases)
+```
+
+Plot
+
+
+```{r, fig.width=5, fig.height=5}
+plot.tot.cases.my <- ggplot(tot_cases_my, aes(x = date, y = total_cases)) +
+  geom_line()
+ggplotly(plot.tot.cases.my)
+```
+
+
+Column
+----------------------------------------------------------------------------
+
+### Plot data for Malaysia (Deaths)
+
+```{r}
+tot_deaths_my <- covid19.data.my %>%
+  group_by(date) %>% 
+  count(total_deaths)
+plot.total.deaths.my <- ggplot(tot_deaths_my, aes(x = date, y = total_deaths)) +
+  geom_line()
+ggplotly(plot.total.deaths.my)
+```
