@@ -16,8 +16,9 @@ Column
 Data as of `r Sys.Date()`
 
 ```{r}
-#devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
 #devtools::install_github("datadotworld/dwapi-r", build_vignettes = TRUE)
+## required to install data.world package
+#devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
 
 library(data.world)
 library(dwapi)
