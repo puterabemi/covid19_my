@@ -111,3 +111,33 @@ ggplotly(plot.tota.deaths)
 Page 2
 ==============================================================================
 
+
+Page 3
+=============================================================================
+
+
+```{r}
+library(lubridate)
+library(scales)
+
+
+covid19.data.all <- covid19.data %>% filter(location == 'Worldwide')
+
+stat_month <- covid19.data.all %>% 
+  group_by(month=floor_date(date, "month")) %>% 
+  mutate(casefatalrate = total_deaths/total_cases)
+
+cfr_month <- stat_month  %>%
+  group_by(month) %>% 
+  summarize(CFR = sum(casefatalrate))
+
+```
+
+
+```{r, fig.width=5, fig.height=5}
+plot.cfr.month <- ggplot(cfr_month, aes(x = month0, y = CFR)) +
+  geom_line() +
+  scale_x_date(date_breaks = "1 months", date_labels = "%b %Y")
+ggplotly(plot.cfr.month)
+```
+
