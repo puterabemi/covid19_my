@@ -124,20 +124,21 @@ library(scales)
 covid19.data.all <- covid19.data %>% filter(location == 'Worldwide')
 
 stat_month <- covid19.data.all %>% 
-  group_by(month=floor_date(date, "month")) %>% 
-  mutate(casefatalrate = total_deaths/total_cases)
+  group_by(month=floor_date(date, "month"))
+  
 
 cfr_month <- stat_month  %>%
   group_by(month) %>% 
-  summarize(CFR = sum(casefatalrate))
+  summarize(CFR = sum(total_deaths)/sum(total_cases))
 
 ```
 
 
 ```{r, fig.width=5, fig.height=5}
-plot.cfr.month <- ggplot(cfr_month, aes(x = month0, y = CFR)) +
+plot.cfr.month <- ggplot(cfr_month, aes(x = month, y = CFR*1000)) +
   geom_line() +
-  scale_x_date(date_breaks = "1 months", date_labels = "%b %Y")
+  scale_x_date(date_breaks = "1 months", date_labels = "%b %Y") +
+  ylab("Case Fatality Rate (per 1,000 case per month)")
 ggplotly(plot.cfr.month)
 ```
 
