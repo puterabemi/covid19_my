@@ -83,7 +83,7 @@ Row
 
 
 ```{r}
-covid19.data.all <- covid19.data %>% filter(location == 'Worldwide')
+covid19.data.all <- covid19.data %>% filter(location == 'World')
 tot_cases <- covid19.data.all %>%
   group_by(date) %>% 
   count(total_cases)
@@ -94,7 +94,10 @@ Plot
 
 ```{r, fig.width=5, fig.height=5}
 plot.tot.cases <- ggplot(tot_cases, aes(x = date, y = total_cases)) +
-  geom_line()
+  geom_line() +
+  xlab("Date") +
+  ylab("No. of Cases") +
+  scale_y_continuous(labels = comma)
 ggplotly(plot.tot.cases)
 ```
 
@@ -106,7 +109,10 @@ tot_deaths <- covid19.data.all %>%
   group_by(date) %>% 
   count(total_deaths)
 plot.tota.deaths <- ggplot(tot_deaths, aes(x = date, y = total_deaths)) +
-  geom_line()
+  geom_line()+
+  xlab("Date") +
+  ylab("No. of Deaths") +
+  scale_y_continuous(labels = comma)
 ggplotly(plot.tota.deaths)
 ```
 
@@ -151,7 +157,10 @@ Plot
 
 ```{r, fig.width=5, fig.height=5}
 plot.tot.cases.my <- ggplot(tot_cases_my, aes(x = date, y = total_cases)) +
-  geom_line()
+  geom_line()+
+  xlab("Date") +
+  ylab("No. of Cases") +
+  scale_y_continuous(labels = comma)
 ggplotly(plot.tot.cases.my)
 ```
 
@@ -166,6 +175,9 @@ tot_deaths_my <- covid19.data.my %>%
   group_by(date) %>% 
   count(total_deaths)
 plot.total.deaths.my <- ggplot(tot_deaths_my, aes(x = date, y = total_deaths)) +
-  geom_line()
+  geom_line()+
+  xlab("Date") +
+  ylab("No. of Death") +
+  scale_y_continuous(labels = comma)
 ggplotly(plot.total.deaths.my)
 ```
