@@ -161,8 +161,6 @@ anim_save("totdeathsw.gif", tot_deaths_w)
 
 ![](totdeathsw.gif)
 
-Row
-----------------------------------------------------------------------------
 
 ### Plot data for worldwide (new deaths)
 
@@ -180,14 +178,32 @@ anim_save("totnewdeathsw.gif", tot.new_deaths_w)
 
 ![](totnewdeathsw.gif)
 
-### Case fatality rate
+
+Row
+----------------------------------------------------------------------------
+
+### Case Fatality Ratio (Daily)
+
+```{r}
+cfr_day <- covid19.data.all  %>%
+  mutate(CFR = total_deaths/total_cases)
+```
+
+
+```{r, fig.width=5, fig.height=5}
+plot.cfr.day <- ggplot(cfr_day, aes(x = date, y = CFR*1000)) +
+  geom_line() +
+  ylab("Case Fatality Rate\n(per 1,000 case per day)")
+ggplotly(plot.cfr.day)
+```
+
+
+### Case Fatality Ratio (Monthly)
 
 ```{r}
 library(lubridate)
-library(scales)
-covid19.data.all <- covid19.data %>% filter(location == 'World')
 stat_month <- covid19.data.all %>% 
-  group_by(month=floor_date(date, "month"))
+  group_by(month=lubridate::floor_date(date, "month"))
   
 cfr_month <- stat_month  %>%
   group_by(month) %>% 
@@ -199,7 +215,7 @@ cfr_month <- stat_month  %>%
 plot.cfr.month <- ggplot(cfr_month, aes(x = month, y = CFR*1000)) +
   geom_line() +
   scale_x_date(date_breaks = "1 months", date_labels = "%b %Y") +
-  ylab("Case Fatality Rate (per 1,000 case per month)")
+  ylab("Case Fatality Rate\n(per 1,000 case per month)")
 ggplotly(plot.cfr.month)
 ```
 
