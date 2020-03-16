@@ -51,7 +51,7 @@ Data:
 - The last fetch was on `r Sys.Date()`
 - RStudio then read data from data.world using data.world to R integration
 
-**Epidemiology Modelling Team Members consists of:**
+**Epidemiology Modelling Team consists of:**
 
 - Assoc Prof Kamarul Imran Musa (KIM)
 - Dr Mohd Azmi B. Suliman
