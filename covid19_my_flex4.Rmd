@@ -16,6 +16,7 @@ library(plotly)
 library(data.table)
 library(DT)
 library(gganimate)
+library(scales) # for ggplot axis
 ```
 
 
@@ -111,7 +112,10 @@ tot_cases <- covid19.data.all %>%
 
 ```{r, fig.width=5, fig.height=5}
 tot_case_w <- ggplot(tot_cases, aes(x = date, y = total_cases)) +
-  geom_line() + transition_reveal(date)
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Cases") + # relabel axis
+  transition_reveal(date)
 anim_save("totcasew.gif", tot_case_w)
 ```
 
@@ -127,7 +131,10 @@ tot_new_cases <- covid19.data.all %>%
   group_by(date) %>% 
   count(new_cases)
 tot_new_cases_w <- ggplot(tot_new_cases, aes(x = date, y = new_cases)) +
-  geom_line() + transition_reveal(date)
+  geom_line()  +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Cases") + # relabel axis
+  transition_reveal(date)
 anim_save("totnewcasesw.gif", tot_new_cases_w)
 ```
 ![](totnewcasesw.gif)
@@ -145,7 +152,10 @@ tot_deaths <- covid19.data.all %>%
   group_by(date) %>% 
   count(total_deaths)
 tot_deaths_w <- ggplot(tot_deaths, aes(x = date, y = total_deaths)) +
-  geom_line() + transition_reveal(date)
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Deaths") + # relabel axis
+  transition_reveal(date)
 anim_save("totdeathsw.gif", tot_deaths_w)
 ```
 
@@ -161,7 +171,10 @@ tot_new_deaths <- covid19.data.all %>%
   group_by(date) %>% 
   count(new_deaths)
 tot.new_deaths_w <- ggplot(tot_new_deaths, aes(x = date, y = new_deaths)) +
-  geom_line() + transition_reveal(date)
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Deaths") + # relabel axis
+  transition_reveal(date)
 anim_save("totnewdeathsw.gif", tot.new_deaths_w)
 ```
 
@@ -215,7 +228,9 @@ Plot
 
 ```{r, fig.width=5, fig.height=5}
 plot.tot.cases.my <- ggplot(tot_cases_my, aes(x = date, y = total_cases)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Cases") # relabel axis
 ggplotly(plot.tot.cases.my)
 ```
 
@@ -227,7 +242,9 @@ tot_deaths_my <- covid19.data.my %>%
   group_by(date) %>% 
   count(total_deaths)
 plot.total.deaths.my <- ggplot(tot_deaths_my, aes(x = date, y = total_deaths)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Deaths") # relabel axis
 ggplotly(plot.total.deaths.my)
 ```
 
@@ -241,7 +258,9 @@ tot_new_cases_my <- covid19.data.my %>%
   group_by(date) %>% 
   count(new_cases)
 plot.total.new_cases_my <- ggplot(tot_new_cases_my, aes(x = date, y = new_cases)) +
-  geom_line()
+  geom_line()+
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Cases") # relabel axis
 ggplotly(plot.total.new_cases_my)
 ```
 
@@ -254,7 +273,9 @@ tot_new_deaths_my <- covid19.data.my %>%
   group_by(date) %>% 
   count(new_deaths)
 plot.tot.new_deaths_my <- ggplot(tot_new_deaths_my, aes(x = date, y = new_deaths)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Deaths") # relabel axis
 ggplotly(plot.tot.new_deaths_my)
 ```
 
@@ -316,7 +337,9 @@ covid_sea <- data.frame(covid_sea) %>% mutate(location = as.factor(location))
 
 ```{r, fig.width=5, fig.height=5}
 plot.tot.cases.sea <- ggplot(covid_sea, aes(x = date, y = total_cases, colour = location)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Cases") # relabel axis
 ggplotly(plot.tot.cases.sea)
 ```
 
@@ -326,7 +349,9 @@ ggplotly(plot.tot.cases.sea)
 
 ```{r}
 plot.total.deaths.sea <- ggplot(covid_sea, aes(x = date, y = total_deaths, colour = location)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of Total Deaths") # relabel axis
 ggplotly(plot.total.deaths.sea)
 ```
 
@@ -337,7 +362,9 @@ Row
 
 ```{r}
 plot.total.new_cases_sea <- ggplot(covid_sea, aes(x = date, y = new_cases, colour = location)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Cases") # relabel axis
 ggplotly(plot.total.new_cases_sea)
 ```
 
@@ -347,7 +374,9 @@ ggplotly(plot.total.new_cases_sea)
 
 ```{r}
 plot.tot.new_deaths_sea <- ggplot(covid_sea, aes(x = date, y = new_deaths, colour =location)) +
-  geom_line()
+  geom_line() +
+  scale_y_continuous(labels = comma) + # change axis from scientific notion to comma style
+  xlab("Date") + ylab("No. of New Deaths") # relabel axis
 ggplotly(plot.tot.new_deaths_sea)
 ```
 
